@@ -14,6 +14,54 @@ const profileRender = {
       $('#email').val(us.email)
       $('#address').val(us.address)
    },
+   updateInfo: ()=>{ 
+      $('#btn-update-info').on('click', ()=>{
+         let us = user.get()
+         const nameActiveEle = $('#name-active');
+         const nameEle = $('#name');
+         const phoneEle = $('#phone');
+         const emailEle = $('#email');
+         const addressEle = $('#address');
+
+         const name = nameEle.val()
+         const phone = phoneEle.val()
+         const email = emailEle.val()
+         const address = addressEle.val()
+
+         if(!name || !phone || !email || !address){
+            alert('Vui lòng nhập đầy đủ thông tin!')
+            return
+         }
+         
+         if(confirm('Bạn có muốn cập nhật thông tin?')){
+            us = {
+               ...us,
+               name:name,
+               phone:phone,
+               email:email,
+               address:address
+            } 
+
+            $.ajax({
+               type: "PUT",
+               dataType: "json",
+               contentType: "application/json",
+               url: `https://website-3h.herokuapp.com/api/v1/accounts`,
+               data: JSON.stringify({
+                  ...us
+               }),
+               success: (result) => {
+                  nameActiveEle.text(name)
+                  user.set(us)  
+               },
+               error: function (jqXHR, textStatus, errorThrown) { 
+                  alert('Cập nhật thông tin không thành công')
+               }
+            })
+            
+         }
+      })
+   },
    renderViewedProduct: async () => {
       const proList = await product.get()
       $('.viewed-products').append(profileRender.renderRow(proList))
@@ -129,11 +177,11 @@ const profileRender = {
       `
       table.append(row)
    }
-
 }
 
 $(window).ready(async () => {
    profileRender.renderInfo()
+   profileRender.updateInfo()
    profileRender.renderViewedProduct()
    profileRender.renderOrder()
    profileRender.initAddToCart()

@@ -87,8 +87,8 @@ const product = {
             contentType: "application/json",
             url: `${urlBase}/reviews`,
             data: JSON.stringify(data),
-            success: (result) => {
-               console.log(result);
+            success: (result) => { 
+               $('#reviews-content').append(product.rennderReview(result))
                messEle.val('')
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -104,12 +104,14 @@ const product = {
          $('#reviews-content').append(data.map(product.rennderReview).join(''))
       })
    },
-   rennderReview: ({ user: { name: name }, createdAt, content }) => {
+   rennderReview: ({ user: { name: name, image:image }, createdAt, content }) => {
       return `
          <div class="binh-luan mt-5">
             <div class="binh-luan-header d-flex">
                <div class="icon-kh mr-3 d-flex align-items-center">
-                  <span style="background-color:rgb(6, 2, 70); color: white;">TP</span>
+                  <span style="background-color: #eee">
+                     <img src=${image} alt=${name} style="width: 50px; height: 50px; border-radius: 50%; transform: translateY(-18%);"/>
+                  </span>
                </div>
                <div class="thong-tin-kh">
                   <p style="color: black;">${name}</p>

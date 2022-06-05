@@ -2,6 +2,7 @@ const USER = 'USER_LOCAL_STORAGE'
 
 export const user = {
    set: (userInfo) => {
+      $('#name-user').text(userInfo.name)
       localStorage.setItem(USER, JSON.stringify(userInfo))
    },
    get: () => {
