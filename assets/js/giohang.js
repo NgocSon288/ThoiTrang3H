@@ -39,7 +39,7 @@ const cartObj = {
 
       				<h4 class="nha-cung-cap mt-3">Cung cấp bởi ${brand ? brand.name : 'không xác định'}</h4>
       				<p class="status lead my-3" style="color: black;">${description}</p>
-      				<span class="gia gia-span" style="margin-right:40px;" data-price="${price}" data-for="input1">${price}
+      				<span class="gia gia-span" style="margin-right:40px;" data-price="${price}" data-for="input1">${formatCost(price)}
       					<span class="badge vnd">đ</span></span>
       				<div class="d-flex row mt-1 contain-count">
       					<div class="so-luong d-flex justify-content-start align-items-center col-md-6">

@@ -16,27 +16,8 @@ const product = {
       product.callApi(`products/detail/${code}`, (data) => {
          console.log(data);
          const { brand, category, description, image, images, name, price, productColors, productSizes, shortDescription } = data;
-
-         [...$('.img-s-1')].forEach((item) => {
-            if (images && images[0]) {
-               $(item).attr('src', images[0].image)
-               $(item).data('src', images[0].image)
-            }
-         });
-
-         [...$('.img-s-2')].forEach((item) => {
-            if (images && images[1]) {
-               $(item).attr('src', images[1].image)
-               $(item).data('src', images[1].image)
-            }
-         });
-
-         [...$('.img-s-3')].forEach((item) => {
-            if (images && images[2]) {
-               $(item).attr('src', images[2].image)
-               $(item).data('src', images[2].image)
-            }
-         })
+         $('.img-s-1').attr('src', image)
+         
 
          $('#address-category').text(category.name)
          $('#address-name').text(name)

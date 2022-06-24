@@ -1,6 +1,7 @@
 let urlBase = "https://website-3h.herokuapp.com/api/v1"
 let urlBaseAdmin = " https://website-3h.herokuapp.com/admin/api/v1"
 import { cart } from "./cart.js";
+import { formatCost } from "./utilities.js"
 
 const filterRender = {
    initFilter: () => {
@@ -9,10 +10,10 @@ const filterRender = {
          success: (result) => {
             const { brands, categories, colors, sizes } = result
 
-            filterRender.brandsRender(brands)
-            filterRender.categoriesRender(categories)
-            filterRender.colorsRender(colors)
-            filterRender.sizesRender(sizes)
+            filterRender.brandsRender(brands.filter(x=>x.state))
+            filterRender.categoriesRender(categories.filter(x=>x.state))
+            filterRender.colorsRender(colors.filter(x=>x.state))
+            filterRender.sizesRender(sizes.filter(x=>x.state))
             filterRender.priceRender()
          }
       });
@@ -129,7 +130,7 @@ const filterRender = {
 }
 
 const product = {
-   parseProduct: (src, alt, productName, productPrice, code) => {
+   parseProduct: (src, alt, productName, productPrice, code, competitive) => {
       return `
             <div class="col-md-3 col-6 div-img-hover" >
                <div>
@@ -145,12 +146,12 @@ const product = {
                            <a href="single.html">${productName}</a>
                         </h4>
                         <div class="mt-2 text-center mb-0">
-                           <p class="text-center mx-auto text-danger mb-0">38.990.000
+                           <p class="text-center mx-auto text-danger mb-0">${formatCost(productPrice)}
                               <span class="VND badge badge-danger"
                                  style="vertical-align: top; font-size: 10px;">đ
                               </span>
                            </p>
-                           <del class="text-center">${productPrice} <span class="VND badge badge-default"
+                           <del class="text-center">${formatCost(competitive)} <span class="VND badge badge-default"
                               style="vertical-align: top; font-size: 10px; background-color: gray;">đ</span></del>
                         </div>
                         <button class="btn-them" data-code="${code}">Thêm vào giỏ</button>
@@ -203,10 +204,11 @@ const productsRender = {
       let productStr = '';
 
       [...data].slice(iS, iE).forEach((item, i) => {
-         let { image: src, name: productName, price: productPrice, code, id } = item
+         console.log(item);
+         let { image: src, name: productName, price: productPrice, code, id, competitive } = item
          let alt = ''
          // khi nào có hình ảnh thì sửa 'Resources/myImages/s1.png' -> src
-         productStr += product.parseProduct(src !== 'no-image' ? src : 'Resources/myImages/s1.png', alt, productName, productPrice, code)
+         productStr += product.parseProduct(src !== 'no-image' ? src : 'Resources/myImages/s1.png', alt, productName, productPrice, code, competitive)
 
       })
 

@@ -96,7 +96,8 @@ const productsRender = {
     },
     renderLatestProducts: (urlApi) => {
         productsRender.callApi(urlApi, (data) => {
-            [...data].slice(0, 4).forEach((item, i) => {
+            console.log(data);
+            [...data.content.filter(x=>x.state)].slice(0, 4).forEach((item, i) => {
 
                 let { image: src, name: productName, price: productPrice, code } = item
                 let cls = clssLatest[i]
@@ -108,7 +109,7 @@ const productsRender = {
     },
     renderHotProducts: (urlApi) => {
         productsRender.callApi(urlApi, (data) => {
-            [...data].slice(0, 2).forEach((item, i) => {
+            [...data.filter(x=>x.state)].slice(0, 2).forEach((item, i) => {
 
                 let { image: src, name: productName, price: productPrice, code } = item
                 let cls = clssHot[i]
@@ -120,12 +121,13 @@ const productsRender = {
     },
     renderNewProducts: (urlApi) => {
         productsRender.callApi(urlApi, (data) => {
-            product.renderNewProduct(data)
+            console.log(data.content);
+            product.renderNewProduct(data.content.filter(x=>x.state));
         })
     },
     renderFutureProducts: (urlApi) => {
         productsRender.callApi(urlApi, (data) => {
-            [...data].slice(0, 2).forEach((item, i) => {
+            [...data.content.filter(x=>x.state)].slice(0, 2).forEach((item, i) => {
 
                 let { image: src, name: productName, price: productPrice, code } = item
                 let cls = clssFuture[i]
@@ -139,10 +141,10 @@ const productsRender = {
 
 
 $(window).ready(() => {
-    productsRender.renderLatestProducts('products/latest')
+    productsRender.renderLatestProducts('products')
     productsRender.renderHotProducts('products/hot')        // cần đưa api hot product vào param
-    productsRender.renderNewProducts('products/latest')        // cần đưa api new product vào param
-    productsRender.renderFutureProducts('products/latest')        // cần đưa api new product vào param
+    productsRender.renderNewProducts('products')        // cần đưa api new product vào param
+    productsRender.renderFutureProducts('products')        // cần đưa api new product vào param
 })
 
 
